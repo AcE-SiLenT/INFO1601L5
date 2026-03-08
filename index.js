@@ -1,58 +1,64 @@
-let arr = [ -5, 16, 33, 42, 103, 344];
+// let person = {
+//   // key : value
+//   "name": "John",
+//   "age": 12
+// };
 
-console.log(arr.includes(-5));//true
+// //we can print the values of a key in two ways
+// console.log(person["age"]);//Using an index
+// console.log(person.name);//referencing the key as a property
 
-arr.push(11);//adds item to the end
+// person["weight"] = 70;
 
-console.log(arr)//[ -5, 16, 33, 42, 103, 344, 11];
+// person.marks = [67, 34, 55, 89];
 
-let lastItem = arr.pop();//removes last item
+// let firstMark = person.marks[0];
 
-console.log(lastItem, arr);//11, [ -5, 16, 33, 42, 103, 344]
+// //mixing array and objects
+// let people = [
+//   person,
+//   {
+//     name: "Jane",
+//     age: 23,
+//     marks: [51, 78, 99, 76]
+//   }
+// ];
 
-arr.unshift(22);//adds item to the front
+// let johnClone = {};//empty object
 
-console.log(arr);//[22, -5, 16, 33, 42, 103, 344]
+// //copying objects
+// Object.assign(johnClone, person);
 
-let firstItem = arr.shift();//removes first item
-console.log(firstItem, arr);//22, [-5, 16, 33, 42, 103, 344]
-
-let reversed = arr.reverse();//creates a new array in reverse order 
-console.log(reversed);//[344, 103, 42, 33, 16, -5]
-console.log(arr.join('-'));//"-5-103-16-33-344-42" joins array with provided separator
+// console.log(johnClone);
 
 
-// let arr2 = [12, 33, 4, 5, -4, 8, 19, 25];
-                
-// //map() creates a new array from the elements of one without changing the old one
-// function double(num){
-//   return num * 2;
-// }
+// console.log(people[0].marks[0]);//what is printed?
 
-// let doubledArr = ar2.map(double); 
-// console.log(doubledArr);
+//Example 2
+//Create a constructor a functions which builds object for us
+function createPerson(name, height, weight) {
+  return { name: name, height: height, weight: weight };
+}
 
-// function isOdd(num){
-//   return element%2 !== 0; 
-// }
-// //Filter takes a test condition and returns only the element which 
-// //make the condition true
-// let odds = arr2.filter(isOdd);
-// console.log(odds);
+function calcBMI(weight, height) {
+  return weight / (height * height);
+}
 
-// //Returns true or false if any of the elements of the array 
-// //meets a specified condition
-// function has5Factor(){
-//   return ele % 5 === 0;
-// }
+function avgBMI(people) {
+  let sum = 0;
+  for (let person of people) {
+    //sum the bmi of each person
+    sum += calcBMI(person.weight, person.height);
+  }
+  //calculate average
+  return sum / people.length;
+}
 
-// let hasFiveFactor = arr2.some(has5Factor);
-// console.log(hasFiveFactor);
+//create a collection of people
+let people = [
+  createPerson("Sally", 60, 2.5),
+  createPerson("Ben", 81, 3),
+  createPerson("Shelly", 50, 1.7)
+];
 
-// function intCompare(a, b){
-//  return a - b;
-// }
-
-// //sort function must return either 0, +ve, -ve
-// let ascending = arr2.sort(intCompare)
-// console.log(ascending);
+console.log(avgBMI(people));
