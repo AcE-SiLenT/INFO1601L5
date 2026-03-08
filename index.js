@@ -1,18 +1,10 @@
-function happyPrint(string){
- console.log("😀: "+string);
+ //prints current date
+function printDate(){
+   console.log( new Date().toLocaleTimeString());
 }
 
-function sadPrint(string){
- console.log("😢: "+string);
-}
+setTimeout(printDate, 5000);
 
-//This high-order function adds 2 parameters and passes the answer to the callback
-function add(a, b, callback){
-   let ans = a + b;
-   callback(ans);// call the callback and pass the answer to it
-}
+setInterval(printDate, 1000);
 
-//call add passing the callbacks to it
-
-add(5, 10, happyPrint);
-add(11, 12, sadPrint);
+//enter ctrl + c to stop interval
