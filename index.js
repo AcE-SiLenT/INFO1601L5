@@ -1,64 +1,139 @@
-// let person = {
-//   // key : value
-//   "name": "John",
-//   "age": 12
-// };
+//object literal
+let bob = {
+  fname: "bob",
+  lname: "smith",
+  age: 18,
+  height: 6,
+  transcript:[
+    {
+      course: 'INFO 1603',
+      grades: [ 89, 34, 67 ]
+    },
+    {
+      course: 'INFO 1601',
+      grades: [ 89, 34, 67 ]
+    }
+  ]
+};
 
-// //we can print the values of a key in two ways
-// console.log(person["age"]);//Using an index
-// console.log(person.name);//referencing the key as a property
+let sally = {
+  fname: "sally",
+  lname: "smith",
+  age: 18,
+  height: 6,
+  transcript:[
+    {
+      course: 'INFO 1601',
+      grades: [ 100, 89, 79 ]
+    }
+  ]
+};
 
-// person["weight"] = 70;
-
-// person.marks = [67, 34, 55, 89];
-
-// let firstMark = person.marks[0];
-
-// //mixing array and objects
-// let people = [
-//   person,
-//   {
-//     name: "Jane",
-//     age: 23,
-//     marks: [51, 78, 99, 76]
-//   }
-// ];
-
-// let johnClone = {};//empty object
-
-// //copying objects
-// Object.assign(johnClone, person);
-
-// console.log(johnClone);
+let paul = {
+  fname: "paul",
+  lname: "smith",
+  age: 18,
+  height: 6,
+  transcript:[
+    {
+      course: 'INFO 1600',
+      grades: [ 89, 34, 67 ]
+    }
+  ]
+};
 
 
-// console.log(people[0].marks[0]);//what is printed?
+const students = [bob, sally, paul];
 
-//Example 2
-//Create a constructor a functions which builds object for us
-function createPerson(name, height, weight) {
-  return { name: name, height: height, weight: weight };
-}
-
-function calcBMI(weight, height) {
-  return weight / (height * height);
-}
-
-function avgBMI(people) {
-  let sum = 0;
-  for (let person of people) {
-    //sum the bmi of each person
-    sum += calcBMI(person.weight, person.height);
+function getAverageGrade(student, course){    //  This function is morer efficient
+  for(let i=0; i < student.transcript.length; i++){
+    if(student.transcript[i].course === course){
+      let sum = 0;
+      for(let j = 0; j < student.transcript[i].grades.length; j++){
+        sum += student.transcript[i].grades[j]; 
+      }
+      return sum /student.transcript[i].grades.length;
+    }
   }
-  //calculate average
-  return sum / people.length;
+  return -1;
 }
 
-//create a collection of people
-let people = [
-  createPerson("Sally", 60, 2.5),
-  createPerson("Ben", 81, 3),
-  createPerson("Shelly", 50, 1.7)
-];
 
-console.log(avgBMI(people));
+function getAverageGrade2(student, course){ //alternative method to function above
+  let avg = 0;
+  let found = false;
+
+  for(let t of student.transcript){
+    if(t.course === course){
+      let sum = 0;
+      for(let grade of  t.grades){
+        sum += grade; 
+      }
+
+      avg = sum / t.grades.length;
+      found = true;
+      break;
+    }
+  }
+
+  if(found)
+    return avg;
+  else 
+    return -1;
+}
+
+
+function getAssignmentMark(student, course, num){
+  for (let i = 0 ; i < student.transcript.length; i++){
+    if(student.transcript[i].course === course){
+      if (num < student.transcript[i].grades.length && num >= 0){
+        return student.transcript[i].grades[num];
+      }
+    }
+  }
+  return -1;
+}
+
+function getAssignmentMark2(student, course, num){
+  for (let t of  student.transcript){
+    if(t.course === course){
+      if (num < t.grades.length && num >= 0){
+        return t.grades[num];
+      }
+    }
+  }
+  return -1;
+}
+
+function averageAssessment(students, courseName, assignment){
+
+  let sum =0;
+  let count = 0;
+
+  for( let i = 0; i < students.length; i++){
+    let mark = getAssignmentMark(students[i], courseName, assignment)
+    if(mark !== -1){
+      sum += mark;
+      count ++; 
+    }
+  }
+
+  if(count > 0)
+    return sum /  count;
+
+  return -1;
+
+}
+
+console.log("===========================");
+console.log("Average grade for " + bob.fname + " " + bob.lname + " in INFO 1603 is: ", getAverageGrade(bob, 'INFO 1603'));
+console.log("===========================", "\n");
+
+console.log("===========================");
+console.log("Assignment 1 grade for " + sally.fname + " " + sally.lname + " in INFO 1601 is: ", getAssignmentMark(sally, 'INFO 1601', 0));
+console.log("===========================", "\n");
+
+console.log("===========================");
+console.log("Average grade for assignment 1 in INFO 1601 is: ", averageAssessment(students, 'INFO 1601', 0));
+console.log("===========================", "\n");
+
